@@ -1,0 +1,41 @@
+This is example of function that configure LDAP client on an OCI compute. 
+It's fdk-python, but still uses some legacy shell script for ldap configuration.
+
+Prep-work
+----------
+
+- Yopu need to have access to OCIR 
+- Create application (collection of functions), name it like ldap-app
+- In OCI console shell, create working location, like /home/zd/fn/ldap-fdk-python
+- Copy to this directory your code, the shell scripts (ex. ldap_config.sh) 
+- Copy to this directory public key for opc user (id_rsa-opc), this is user that exist in OCI compute, 
+  so when creating compute, make sure to provide opc public key.
+- Create metadata definition file func.yaml (present in this repo)
+- Create func.py (present in this repo)
+- Create Dockerfile (present in this repo)
+- Create requirements.txt, it contains list of modules to be installed via pip3 (present in this repo)
+
+uild function
+----------------
+
+Run: fn -v build
+
+Deploy function 
+---------------
+(this basically creates function and push docker image into OCIR)
+
+Syntax: fn -v deploy -app <app-name>
+Ex: fn -v deploy -app ldap-app
+
+Invoke function
+---------------
+
+Invoke using fn command, you can do from OCI console shell or from some host with 'fn' installed 
+(it can be installed with: curl -LSs https://raw.githubusercontent.com/fnproject/cli/master/install | sh)
+
+Syntax:
+echo -n '{"ocicompute" : "some-oci-compute-name"}' | fn -v invoke <applicattion-name> <function-name>
+ 
+
+This will configure LDAP client on OCI compute.
+
